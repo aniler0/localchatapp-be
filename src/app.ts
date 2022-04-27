@@ -1,9 +1,9 @@
 import * as express from "express";
 import * as http from "http";
 import { Server, Socket } from "socket.io";
-
 import route from "./route";
 import { addUser, getUser } from "./users";
+
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -20,11 +20,11 @@ io.on("connection", (socket: Socket) => {
   console.log("We have a new connection!");
 
   //socket.on is used to catch emits that came from frontend
-  socket.on("join", ({ name, room }, callback) => {
+  socket.on("join", ({ name, room }) => {
     //we add user inside of our user object with addUser method which returns error and user
     const { error, user } = addUser({ id: socket.id, name, room });
 
-    if (error) return callback(error);
+    if (error) console.log(error);
     //socket.emit is used to emit a object to the frontend
     socket.emit("message", {
       user: "admin",
