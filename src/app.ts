@@ -15,7 +15,6 @@ app.use(cors());
 const io = new Server(httpServer, {
   cors: {
     origin: "https://localchatapp-fe.vercel.app",
-    credentials: true,
   },
 });
 
