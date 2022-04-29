@@ -4,17 +4,37 @@ import { Server, Socket } from "socket.io";
 import route from "./route";
 import { addUser, getUser } from "./users";
 
-
 const app = express();
 const httpServer = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
+
+app.use(function (req, res, next) {
+  // Website you wish to allow to connect
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
+  // Request methods you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+
+  // Request headers you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+
+  // Pass to next layer of middleware
+  next();
+});
 
 const io = new Server(httpServer, {
   cors: {
     origin: "*",
   },
 });
+
 //when we connect frontend and backend to eachother io.on runs
 io.on("connection", (socket: Socket) => {
   console.log("We have a new connection!");
@@ -41,7 +61,7 @@ io.on("connection", (socket: Socket) => {
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
     io.to(user.room).emit("message", { user: user.name, text: message });
-    callback({ok:200});
+    callback({ ok: 200 });
   });
 
   socket.on("disconnect", () => {
