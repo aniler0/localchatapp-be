@@ -10,15 +10,11 @@ const httpServer = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
 
-app.use(
-  cors({
-    origin: "https://localchatapp-fe.vercel.app",
-  })
-);
+app.use(cors());
 
 const io = new Server(httpServer, {
   cors: {
-    origin: ["https://localchatapp-fe.vercel.app"],
+    origin: "https://localchatapp-fe.vercel.app",
     credentials: true,
   },
 });
