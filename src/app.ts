@@ -12,13 +12,13 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "https://localchatapp-fe.vercel.app",
+    origin: "https://localchatapp-fe.vercel.app/",
   })
 );
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://localchatapp-fe.vercel.app",
+    origin: "https://localchatapp-fe.vercel.app/",
     credentials: true,
   },
   transports: ["websocket", "polling"],
