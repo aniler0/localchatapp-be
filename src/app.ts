@@ -10,13 +10,18 @@ const httpServer = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 const io = new Server(httpServer, {
   cors: {
     origin: "https://localchatapp-fe.vercel.app",
     credentials: true,
   },
+  transports: ["websocket", "polling"],
 });
 
 //when we connect frontend and backend to eachother io.on runs
