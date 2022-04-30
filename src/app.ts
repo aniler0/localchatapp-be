@@ -3,7 +3,7 @@ import * as express from "express";
 import * as http from "http";
 import { Server, Socket } from "socket.io";
 import route from "./route";
-import { addUser, getUser } from "./users";
+import { addUser, getUser, removeUser } from "./users";
 
 const app = express();
 app.use(cors());
@@ -49,6 +49,13 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("disconnect", () => {
     console.log("User had left");
+    const user = removeUser(socket.id);
+    if (user) {
+      io.to(user.room).emit("message", {
+        user: "admin",
+        text: `${user.name},has left from room!`,
+      });
+    }
   });
 });
 
