@@ -9,16 +9,11 @@ const httpServer = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
+const io = new Server(httpServer, {
+  cors: {
+    origin: "https://localchatapp-fe.vercel.app",
+  },
 });
-
-const io = new Server(httpServer);
 
 //when we connect frontend and backend to eachother io.on runs
 io.on("connection", (socket: Socket) => {
