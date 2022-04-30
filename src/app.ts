@@ -1,3 +1,4 @@
+import * as cors from "cors";
 import * as express from "express";
 import * as http from "http";
 import { Server, Socket } from "socket.io";
@@ -5,6 +6,7 @@ import route from "./route";
 import { addUser, getUser } from "./users";
 
 const app = express();
+app.use(cors());
 const httpServer = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
@@ -12,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 const io = new Server(httpServer, {
   cors: {
     origin: "https://localchatapp-fe.vercel.app",
+    credentials: true,
   },
 });
 
